@@ -4,7 +4,7 @@ import './App.css'
 const App = () => {
   const [team, setTeam] = useState([])
   const [money, setMoney] = useState(100);
-  const [zombieFigthers, setZombieFighters] = useState(
+  const [zombieFighters, setZombieFighters] = useState(
   [
     {
       id: 1,
@@ -102,6 +102,18 @@ const App = () => {
     setMoney(money - fighter.price)
   };
 
+  const handleRemoveFighter= (member)=>{
+    console.log('Removing member:', member);
+    
+    setZombieFighters([...zombieFighters, member]);
+
+    const attackChange = team.filter(
+      (f)=> f.id !== member.id
+    );
+    setTeam(attackChange)
+    setMoney(money + member.price)
+  };
+
   const totalStrength = team.length > 0
     ? team.reduce((sum, member)=>sum + member.strength, 0)
     : 0;
@@ -153,13 +165,13 @@ const App = () => {
               <p>Price: ${member.price}</p>
               <p> Strength: {member.strength}</p>
               <p> Agility: {member.agility}</p>
-             <button onClick={() => handleRemoveFighter(fighter)}>
+             <button onClick={() => handleRemoveFighter(member)}>
               Remove 
             </button>
             </li>
-          ))};
+          ))}
         </ul>
-      )};
+      )}
     <div className="totals">
       <h3>Total Team Strength: {totalStrength}</h3>
        <p>Total Agility: {totalAgility}</p>
